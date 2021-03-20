@@ -238,25 +238,7 @@ export default class AnnouncementCreator extends Vue {
       new History(),
     ],
     content: `
-      <h2>
-        Hi there,
-      </h2>
-      <p>
-        this is a very <em>basic</em> example of tiptap.
-      </p>
-      <ul>
-        <li>
-          A regular list
-        </li>
-        <li>
-          With regular items
-        </li>
-      </ul>
-      <blockquote>
-        It's amazing 👏
-        <br />
-        – mom
-      </blockquote>
+      <h3>Describe event here...</h3>
     `,
   });
 
