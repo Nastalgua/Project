@@ -18,14 +18,18 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Link } from "@/store";
+
 @Component({})
 export default class Dropdown extends Vue {
   @Prop() name!: boolean;
   @Prop() items!: Array<Link>;
+
   open = false;
+
   onClickOutside() {
     this.open = false;
   }
+
   run(link: Link) {
     this.open = false;
     
@@ -33,6 +37,7 @@ export default class Dropdown extends Vue {
       link.callback();
       return;
     }
+
     this.$router.push((link.to as string)).catch(() => false);
   }
 }
@@ -43,12 +48,14 @@ export default class Dropdown extends Vue {
   position: relative;
   display: inline-block;
 }
+
 .items {
   position: absolute;
   top: 35px;
   margin: 0;
   padding: 0;
 }
+
 .text {
   font-weight: normal;
   font-size: 18px;
@@ -57,6 +64,7 @@ export default class Dropdown extends Vue {
   margin: 0 1em 0 1em;
   cursor: pointer;
 }
+
 .item {
   display: flex;
   align-items: center;

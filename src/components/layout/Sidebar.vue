@@ -1,9 +1,10 @@
 <template>
   <div class="sidebar">
-    <div class="logo noselect" @click="goToHome()">Announce</div>
+    <img class="logo noselect" @click="goToHome()" src="@/assets/general/Logo.svg"/>
     <div class="nav-links noselect">
       <router-link to="/" class="link">Browse</router-link>
       <router-link v-show="isLoggedIn" to="/create" class="link">Create</router-link>
+      <router-link v-show="isLoggedIn" to="/chats" class="link">Chats</router-link>
       <router-link v-show="!isLoggedIn" to="/login" class="link">Login</router-link>
       <router-link v-show="!isLoggedIn" to="/register" class="link">Register</router-link>
     </div>

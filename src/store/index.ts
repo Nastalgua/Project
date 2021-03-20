@@ -7,7 +7,7 @@ import { db } from '@/firebase';
 
 // modules
 import authentication from './modules/authentication';
-import announces from './modules/announces';
+import announces, { Announcement } from './modules/announces';
 import map from './modules/map';
 
 export interface Link {
@@ -22,12 +22,18 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    announcements: []
+    announcements: [],
+    messages: [],
+    annoucementsSorted: false
   },
-  mutations: vuexfireMutations,
+  mutations: {
+    ...vuexfireMutations
+  },
   actions: {
     bindAnnouncementsRef: firestoreAction(context => {
-      return context.bindFirestoreRef('announcements', db.collection('announcements'));
+      const ref = db.collection('announcements').orderBy('date', 'desc');
+
+      return context.bindFirestoreRef('announcements', ref);
     })
   },
   modules: {

@@ -3,7 +3,7 @@
     <div class="items">
       <div class="title">
         <input type="input" class="form__field" placeholder="Name" name="name" id='name' required v-model="title" />
-        <label for="name" class="form__label">What's the Announcement?</label>
+        <label for="name" class="form__label">What's the Project?</label>
       </div>
       <div class="sect">
         <div>Category</div>
@@ -163,8 +163,8 @@
           <input id="image-link" placeholder="Image link..." v-model="imageLink" />
         </div>
       </div>
-      <div class="submit" @click="submit()">
-        <button class="submit-btn" :class="{ 'disabled': title === '' }">Announce!</button>
+      <div class="submit">
+        <button class="submit-btn" :class="{ 'disabled': title === '' }" @click="submitAnnoucement()">Announce!</button>
       </div>
     </div>
   </div>
@@ -195,7 +195,7 @@ import {
   History,
 } from 'tiptap-extensions';
 import { Announcement } from '@/store/modules/announces';
-import { Authentication, Map } from "@/store";
+import store, { Authentication, Map } from "@/store";
 import router from "@/router";
 import { db } from '@/firebase';
 import { nanoid } from 'nanoid';
@@ -298,24 +298,35 @@ export default class AnnouncementCreator extends Vue {
     this.selected = value;
   }
 
-  async submit() {
+  async submitAnnoucement() {
     if (this.title === '') return;
     
     const _id = nanoid();
     const authorId: string = (Authentication.user?.uid as string);
     
+    const date = this.data.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).replace(/[^0-9]/g, "");
+
+    const time = this.data.getTime().toString();
+
     const announcement: Announcement = {
       _id,
       title: this.title,
       authorId,
       body: this.editor.getHTML(),
-      date: this.data.toString(),
-      going: [],
+      date: date + time,
+      going: [
+        (Authentication.user?.uid as string)
+      ],
       category: this.selected,
       location: {
         location: Map.circleCenter,
         radius: Map.circleRadius
       },
+      messages: [],
       imgLink: this.imageLink,
       website: this.website,
       phoneNumber: this.phoneNumber,
@@ -324,7 +335,7 @@ export default class AnnouncementCreator extends Vue {
     
     Map.SET_OWN_LOCATION({ draggable: false, editable: false });
 
-    await db.collection('announcements').doc(_id).set(announcement);
+    await db.collection('announcements').doc(announcement._id).set(announcement);
 
     router.push('/');
   }
@@ -456,7 +467,6 @@ $addon-btn-color: #2dc266;
 .submit {
   display: flex;
   justify-content: center;
-  width: 100%;
 
   .submit-btn {
     margin-top: 40px;

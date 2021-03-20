@@ -84,6 +84,7 @@ export default class AnnouncementView extends Vue {
       },
       radius: 0
     },
+    messages: [],
     imgLink: '',
     date: '',
     going: [],
@@ -121,7 +122,9 @@ export default class AnnouncementView extends Vue {
   });
   
   get date() {
-    return new Date(this.announcement.date).toLocaleDateString("en-US");
+    const date = this.announcement.date;
+
+    return `${date.substring(0, 2)}/${date.substring(2, 4)}/${date.substring(4, 6)}`;
   }
 
   async mounted() {
@@ -157,19 +160,39 @@ export default class AnnouncementView extends Vue {
     Map.SET_RADIUS(this.announcement.location.radius);
   }
 
-  changeToGoing(condition: boolean) {
+  async changeToGoing(condition: boolean) {
     if (!Authentication.user?.uid) return;
-    const docRef = db.collection('announcements').doc(this.announcement._id);
 
     if (!condition) {
-      this.announcement.going.unshift(Authentication.user.uid);
+      this.announcement.going.push(Authentication.user.uid);
     } else {
       this.announcement.going = this.announcement.going.filter((uid) => Authentication.user?.uid !== uid);
     }
 
-    return docRef.update({
-      going: this.announcement.going
+    db.collection('announcements').doc(this.announcement._id).set(this.announcement);
+
+    const userRef = db.collection('users').doc(Authentication.user.uid);
+    userRef.get().then((doc) => {
+      const user = doc.data();
+      // eslint-disable-next-line
+      let announcements = (user as any).announcements;
+      if (user) {
+        if (!condition) {
+          announcements.unshift(this.announcement._id);
+        } else {
+          announcements = announcements.filter((uid: string) => this.announcement._id !== uid);
+        }
+
+        db.collection('users').doc(Authentication.user?.uid).update({
+          announcements
+        });
+      } else {
+        console.log("No such document!");
+      }
+    }).catch((err) => {
+      console.log(err);
     });
+    
   }
 
   async getAuthor() {

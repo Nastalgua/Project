@@ -70,7 +70,8 @@ export default class Login extends Vue {
       Authentication.SET_USER(result.user);
       
       db.collection('users').doc(firebase.auth().currentUser?.uid).set({
-        username: firebase.auth().currentUser?.displayName
+        username: firebase.auth().currentUser?.displayName,
+        announcements: []
       });
 
       router.push('/');

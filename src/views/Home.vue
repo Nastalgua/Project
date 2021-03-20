@@ -10,6 +10,12 @@
     <div class="main" v-if="this.$route.fullPath.includes('/view')">
       <AnnouncementView />
     </div>
+    <div class="main" v-if="this.$route.fullPath === '/chats'">
+      <Chats />
+    </div>
+    <div class="main" v-if="this.$route.fullPath.includes('/chat/')">
+      <Chat />
+    </div>
     <GmapMap
       ref="mapRef"
       :center="viewCenter"
@@ -28,18 +34,22 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Map } from "@/store";
 import Announcements from '@/components/app/Announcements.vue';
 import CategorySelection from '@/components/app/CategorySelection.vue';
 import AnnouncementCreator from '@/components/app/AnnouncementCreator.vue';
 import AnnouncementView from '@/components/app/AnnouncementView.vue';
-import { Map } from "@/store";
+import Chats from '@/components/app/Chats.vue';
+import Chat from '@/components/app/Chat.vue';
 
 @Component({
   components: {
     CategorySelection,
     Announcements,
     AnnouncementCreator,
-    AnnouncementView
+    AnnouncementView,
+    Chats,
+    Chat
   }
 })
 export default class Home extends Vue {
