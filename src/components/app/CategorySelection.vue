@@ -7,6 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import CategoryItem from '@/components/app/CategoryItem.vue';
+import { categories } from '@/store/modules/announces';
 
 @Component({
   components: {
@@ -14,7 +15,11 @@ import CategoryItem from '@/components/app/CategoryItem.vue';
   }
 })
 export default class CategorySelection extends Vue {
-  categories = ['Food', 'Clothing'];
+  categories: string[] = [];
+
+  mounted() {
+    this.categories = categories;
+  }
 }
 </script>
 

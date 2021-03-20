@@ -24,9 +24,9 @@ import { Announcement } from "@/store/modules/announces";
   }
 })
 export default class Announcements extends Vue {
-  mounted() {
+  async created() {
     if (!Announces.fetchedAnnouncements) {
-      store.dispatch('bindAnnouncementsRef');
+      await store.dispatch('bindAnnouncementsRef');
       Announces.TRUE_FETCHED_ANNOUNCEMENTS();
     }
   }
@@ -36,15 +36,17 @@ export default class Announcements extends Vue {
   }
 
   get announces() {
-    let annnouncements: Announcement[] = store.state.announcements;
-    this.filters.forEach(filter => {
-      annnouncements = annnouncements.filter(announcement => filter === announcement.category);
-    });
-    
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
-    annnouncements = annnouncements.sort((a, b) => (new Date(b.date) as any) - (new Date(a.date) as any));
+    const annnouncements: Announcement[] = store.state.announcements;
+    let newAnnouncements: Announcement[] = [];
 
-    return annnouncements;
+    if (this.filters.length == 0) return annnouncements;
+
+    this.filters.forEach(filter => {
+      newAnnouncements = newAnnouncements.concat(annnouncements.filter(announcement => filter === announcement.category));
+    });
+
+
+    return newAnnouncements;
   }
 }
 </script>

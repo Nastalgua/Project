@@ -14,12 +14,31 @@ const routes: Array<RouteConfig> = [
   {
     path: '/create',
     name: 'Create',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/view/:id',
     name: 'View',
     component: () => import('../views/Home.vue')
+  },
+  {
+    path: '/chats',
+    name: 'Chats',
+    component: () => import('../views/Home.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/chat/:id',
+    name: 'Chat',
+    component: () => import('../views/Home.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',

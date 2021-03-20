@@ -67,7 +67,8 @@ export default class Register extends Vue {
       Authentication.SET_USER(firebase.auth().currentUser);
 
       db.collection('users').doc(firebase.auth().currentUser?.uid).set({
-        username: this.username
+        username: this.username,
+        announcements: []
       });
 
       router.push('/');
@@ -82,7 +83,8 @@ export default class Register extends Vue {
       Authentication.SET_USER(result.user);
 
       db.collection('users').doc(firebase.auth().currentUser?.uid).set({
-        username: firebase.auth().currentUser?.displayName
+        username: firebase.auth().currentUser?.displayName,
+        announcements: []
       });
 
       router.push('/');
