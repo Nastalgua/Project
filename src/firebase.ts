@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 const firebaseApp = firebase.initializeApp({
-  apiKey: "AIzaSyAHuWwuyrdO5qMI_T45HVeymtE5u-hQj6E",
+  apiKey: process.env.VUE_APP_FIREBASE_API,
   authDomain: "atom-hacks.firebaseapp.com",
   projectId: "atom-hacks",
   storageBucket: "atom-hacks.appspot.com",

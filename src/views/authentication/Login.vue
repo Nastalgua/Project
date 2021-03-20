@@ -46,6 +46,7 @@ import 'firebase/auth';
 
 import router from '../../router';
 import { Authentication } from '@/store';
+import { db } from '@/firebase';
 
 @Component({})
 export default class Login extends Vue {
@@ -67,6 +68,11 @@ export default class Login extends Vue {
     try {
       const result = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider);
       Authentication.SET_USER(result.user);
+      
+      db.collection('users').doc(firebase.auth().currentUser?.uid).set({
+        username: firebase.auth().currentUser?.displayName
+      });
+
       router.push('/');
     } catch (err) {
       console.log(err);
@@ -91,7 +97,7 @@ $field-size: 300px;
   width: 420px;
   height: 480px;
   background: #fbfbfb;
-  margin-bottom: 30px;
+  margin-bottom: 30px; 
   margin-left: 200px;
   border-radius: 6px;
   border: 1px solid #e6e3e3;
@@ -205,6 +211,20 @@ $field-size: 300px;
   }
   &:hover {
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 875px) {
+  #login {
+    height: 100%;
+  }
+
+  .prompt {
+    margin-left: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 }
 </style>

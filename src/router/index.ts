@@ -12,9 +12,14 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Home.vue')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
+    path: '/create',
+    name: 'Create',
+    component: () => import('../views/Home.vue')
+  },
+  {
+    path: '/view/:id',
+    name: 'View',
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/login',
@@ -46,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
   if (requiresAuth && !isAuthenticated) {
     next('/login');
   } else if (requiresGuest && isAuthenticated) {
-    // next('/');
+    next('/');
   } else {
     next();
   }

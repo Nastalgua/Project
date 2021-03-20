@@ -2,9 +2,13 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { getModule } from 'vuex-module-decorators';
 
+import { vuexfireMutations, firestoreAction } from 'vuexfire';
+import { db } from '@/firebase';
+
 // modules
 import authentication from './modules/authentication';
 import announces from './modules/announces';
+import map from './modules/map';
 
 export interface Link {
   name: string;
@@ -16,32 +20,25 @@ export interface Link {
 
 Vue.use(Vuex);
 
-export enum STATES {
-  BROWSE,
-  CREATE
-}
-
 const store = new Vuex.Store({
   state: {
-    currState: STATES.BROWSE
+    announcements: []
   },
-  mutations: {
-    UPDATE_CURR_STATE(state, newState) {
-      state.currState = newState;
-    }
-  },
+  mutations: vuexfireMutations,
   actions: {
-    updateCurrState(context, newState) {
-      context.commit('UPDATE_CURR_STATE', newState);
-    }
+    bindAnnouncementsRef: firestoreAction(context => {
+      return context.bindFirestoreRef('announcements', db.collection('announcements'));
+    })
   },
   modules: {
     authentication,
-    announces
+    announces,
+    map
   }
 });
 
 export const Authentication = getModule(authentication, store);
 export const Announces = getModule(announces, store);
+export const Map = getModule(map, store);
 
 export default store;

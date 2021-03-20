@@ -4,3 +4,4 @@ declare module 'vue-select';
 declare module 'v-calendar';
 declare module 'tiptap';
 declare module 'tiptap-extensions';
+declare module 'debounce';

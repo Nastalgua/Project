@@ -50,9 +50,11 @@ export default class App extends Vue {}
 #nav {
   padding: 30px;
   text-align: center;
+
   a {
     font-weight: bold;
     color: #2c3e50;
+
     &.router-link-exact-active {
       color: #42b983;
     }
@@ -76,5 +78,11 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@media screen and (max-width: 875px) {
+  .page {
+    padding-left: 0;
+  }
 }
 </style>

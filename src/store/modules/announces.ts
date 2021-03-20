@@ -1,41 +1,45 @@
 import { Module, Mutation, VuexModule } from 'vuex-module-decorators';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { Loc } from './map';
+
+type LocCircle = {
+  location: Loc;
+  radius: number;
+}
 
 export interface Announcement {
   _id: string;
   title: string;
-  author: firebase.UserInfo | null;
+  authorId: string;
   body: string;
-  going: number;
+  date: string;
+  going: Array<string>;
   category: string;
+  location: LocCircle;
+  imgLink?: string;
+  website?: string;
+  phoneNumber?: string;
+  venue?: string;
 }
 
 export const categories = ['Food', 'Clothing', 'Vaccine'];
 
 @Module({ name: 'announces' })
 export default class Announces extends VuexModule {
-  announcements: Announcement[] = [
-    {
-      _id: 'ok',
-      title: 'Food Drive',
-      author: null,
-      body: 'Get some food during these hard times.',
-      going: 0,
-      category: 'Food'
-    },
-    {
-      _id: '2sds',
-      title: 'Clothing Drive',
-      author: null,
-      body: 'Get some clothes during these cold times.',
-      going: 0,
-      category: 'Clothing'
-    },
-  ];
+  fetchedAnnouncements = false;
+  currFilters: string[] = [];
 
   @Mutation
-  SET_ANNOUNCEMENTS(announcements: Announcement[]) {
-    this.announcements = announcements;
+  TRUE_FETCHED_ANNOUNCEMENTS() {
+    this.fetchedAnnouncements = true;
+  }
+
+  @Mutation
+  ADD_FILTER(filter: string) {
+    this.currFilters.push(filter);
+  }
+
+  @Mutation
+  REMOVE_FILTER(filter: string) {
+    this.currFilters = this.currFilters.filter(str => str !== filter);
   }
 }

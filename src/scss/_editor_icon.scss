@@ -1,0 +1,25 @@
+.icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0 .3rem;
+  top: -.05rem;
+  background: #fff;
+
+  &__svg {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

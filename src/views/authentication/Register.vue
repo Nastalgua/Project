@@ -20,6 +20,12 @@
         </div>
         <div class="field">
           <div class="flex">
+            <div class="label">Email</div>
+          </div>
+          <input class="field-input" id="email" type="text" v-model="email" />
+        </div>
+        <div class="field">
+          <div class="flex">
             <div class="label">Password</div>
           </div>
           <input class="field-input" id="password" type="password" v-model="password" />
@@ -46,17 +52,24 @@ import 'firebase/auth';
 
 import router from '../../router';
 import { Authentication } from '@/store';
+import { db } from '@/firebase';
 
 @Component({})
 export default class Register extends Vue {
   username = '';
+  email = '';
   password = '';
   error = '';
 
   async register() {
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(async () => {
-      await firebase.auth().createUserWithEmailAndPassword(this.username, this.password);
+      await firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
       Authentication.SET_USER(firebase.auth().currentUser);
+
+      db.collection('users').doc(firebase.auth().currentUser?.uid).set({
+        username: this.username
+      });
+
       router.push('/');
     }).catch((err) => {
       this.error = err.message;
@@ -67,6 +80,11 @@ export default class Register extends Vue {
     try {
       const result = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider);
       Authentication.SET_USER(result.user);
+
+      db.collection('users').doc(firebase.auth().currentUser?.uid).set({
+        username: firebase.auth().currentUser?.displayName
+      });
+
       router.push('/');
     } catch (err) {
       console.log(err);
@@ -208,6 +226,20 @@ $field-size: 300px;
   }
   &:hover {
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 875px) {
+  #register {
+    height: 100%;
+  }
+
+  .prompt {
+    margin-left: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 }
 </style>
