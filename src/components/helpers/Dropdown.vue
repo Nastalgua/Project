@@ -2,14 +2,12 @@
   <div class="dropdown">
     <p class="text" @click="open = !open">{{ name }}</p>
     <div class="items" v-if="open" v-click-outside="onClickOutside">
-      <div class="item text" @click="goTo('/auth')" v-if="useIcon">
-        <img width="24px" height="24px" src="@/assets/general/google.svg" />
-      </div>
       <div
         class="item text"
         v-for="item in items"
         :key="item.name"
-        @click="goTo(item.to)"
+        v-show="item.show"
+        @click="run(item)"
       >
         {{ item.name }}
       </div>
@@ -19,19 +17,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Link from "../layout/Navbar.vue";
+import { Link } from "@/store";
 @Component({})
 export default class Dropdown extends Vue {
   @Prop() name!: boolean;
   @Prop() items!: Array<Link>;
-  @Prop() useIcon!: boolean; // for now it just supports the google icon
   open = false;
   onClickOutside() {
     this.open = false;
   }
-  goTo(path: string) {
-    this.$router.push(path);
+  run(link: Link) {
     this.open = false;
+    
+    if (link.callback) {
+      link.callback();
+      return;
+    }
+    this.$router.push((link.to as string)).catch(() => false);
   }
 }
 </script>
@@ -66,3 +68,4 @@ export default class Dropdown extends Vue {
     background: #1f945a;
   }
 }
+</style>

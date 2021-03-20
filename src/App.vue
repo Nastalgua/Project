@@ -1,11 +1,6 @@
 <template>
   <div id="app">
     <Navbar />
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/problem">Problem</router-link>
-    </div> -->
     <router-view />
   </div>
 </template>
@@ -23,6 +18,18 @@ export default class App extends Vue {}
 
 <style lang="scss">
 @import "@/scss/_global.scss";
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/rubik/Rubik-Medium.ttf');
+}
+@font-face {
+  font-family: 'Rubik Light';
+  src: url('./assets/fonts/rubik/Rubik-Light.ttf');
+}
+@font-face {
+  font-family: 'Rubik Semibold';
+  src: url('./assets/fonts/rubik/Rubik-SemiBold.ttf');
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

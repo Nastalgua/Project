@@ -1,10 +1,11 @@
 <template>
-  <div id="navbar" v-show="this.show">
-    <div class="logo noselect" @click="goToHome()">{ Logo }</div>
+  <div id="navbar">
+    <div class="logo noselect" @click="goToHome()">Announce</div>
     <div class="nav-links noselect">
       <router-link to="/about" class="link">About</router-link>
-      <Dropdown :name="'Gym'" :items="gymDropdown" :useIcon="false" />
-      <Dropdown :name="'Auth'" :useIcon="true" />
+      <router-link v-show="!isLoggedIn" to="/login" class="link">Login</router-link>
+      <router-link v-show="!isLoggedIn" to="/register" class="link">Register</router-link>
+      <div class="link" v-show="isLoggedIn" @click="logout()">Log out</div>
     </div>
   </div>
 </template>
@@ -12,39 +13,26 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import router from "../../router";
-import Dropdown from "../helpers/Dropdown.vue";
-export interface Link {
-  name: string;
-  to: string;
-  requireGuest?: boolean;
-  requireAuth?: boolean;
-}
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { Authentication } from "@/store";
 // make sure to change class name
-@Component({
-  components: {
-    Dropdown,
-  },
-})
+@Component({})
 export default class Navbar extends Vue {
-  gymDropdown: Link[] = [
-    {
-      name: "Problem Sets",
-      to: "/problems",
-    },
-    {
-      name: "Topics",
-      to: "/topics",
-    },
-    {
-      name: "Videos",
-      to: "/videos",
-    },
-  ];
-  get show() {
-    return this.$route.fullPath !== "/problem";
+  get isLoggedIn() {
+    return !!Authentication.user;
   }
   goToHome() {
     if (this.$route.fullPath !== "/") return router.push("/");
+  }
+  logout() {
+    try {
+      firebase.auth().signOut();
+      Authentication.SET_USER(null);
+      if (router.currentRoute.path != '/') router.push('/');
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 </script>
@@ -63,8 +51,9 @@ export default class Navbar extends Vue {
   justify-content: space-around;
   flex-wrap: wrap;
   z-index: 999; // always on top
-  .link,
-  .logo {
+  font-family: 'Rubik';
+  
+  .link, .logo {
     font-weight: normal;
     font-size: 18px;
     color: #ffffff;
@@ -76,4 +65,4 @@ export default class Navbar extends Vue {
 .nav-links {
   display: flex;
 }
-</style> 
+</style>
