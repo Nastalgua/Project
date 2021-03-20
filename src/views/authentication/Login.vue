@@ -43,13 +43,16 @@
 import { Component, Vue } from 'vue-property-decorator';
 import firebase from 'firebase/app';
 import 'firebase/auth'; 
+
 import router from '../../router';
 import { Authentication } from '@/store';
+
 @Component({})
 export default class Login extends Vue {
   username = '';
   password = '';
   error = '';
+
   async login() {
     try {
       await firebase.auth().signInWithEmailAndPassword(this.username, this.password);
@@ -59,6 +62,7 @@ export default class Login extends Vue {
       this.error = err.message;
     }
   }
+
   async googleLogin() {
     try {
       const result = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider);
@@ -73,6 +77,7 @@ export default class Login extends Vue {
 
 <style lang="scss" scoped>
 $field-size: 300px;
+
 #login {
   margin: 0;
   display: flex;
@@ -81,11 +86,13 @@ $field-size: 300px;
   font-family: Rubik;
   height: 100vh;
 }
+
 .prompt {
   width: 420px;
   height: 480px;
   background: #fbfbfb;
   margin-bottom: 30px;
+  margin-left: 200px;
   border-radius: 6px;
   border: 1px solid #e6e3e3;
   display: flex;
@@ -93,14 +100,17 @@ $field-size: 300px;
   align-items: center;
   justify-content: center;
 }
+
 .header {
   width: $field-size;
   text-align: left;
   margin-bottom: 15px;
+
   .welcome {
     font-size: 22px;
     font-family: 'Rubik SemiBold';
   }
+
   .register-alt {
     display: flex;
     align-items: center;
@@ -114,11 +124,13 @@ $field-size: 300px;
     }
   }
 }
+
 .flex {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
+
 .field {
   width: $field-size;
   text-align: left;
@@ -126,6 +138,7 @@ $field-size: 300px;
     margin: 8px 0 8px 0;
     font-size: 14px;
   }
+
   .field-input {
     $vertical-padding: 6px;
     $horizontal-padding: 10px;
@@ -137,6 +150,7 @@ $field-size: 300px;
     padding: $vertical-padding $horizontal-padding;
   }
 }
+
 .button {
   $padding: 10px;
   width: 100%;
@@ -153,6 +167,7 @@ $field-size: 300px;
     background: #20965b;
   }
 }
+
 .alt {
   width: 100%;
   margin-top: 10px;
@@ -160,6 +175,7 @@ $field-size: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
+
   .line {
     margin: 0 5px;
     width: 23%;
@@ -167,6 +183,7 @@ $field-size: 300px;
     border-radius: 100px;
   }
 }
+
 .google {
   $img-size: 22px;
   $spacing: 8px;

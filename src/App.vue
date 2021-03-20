@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Sidebar />
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Navbar from "./components/layout/Navbar.vue";
+import Sidebar from "./components/layout/Sidebar.vue";
 @Component({
   components: {
-    Navbar,
+    Sidebar,
   },
 })
 export default class App extends Vue {}
@@ -18,24 +18,35 @@ export default class App extends Vue {}
 
 <style lang="scss">
 @import "@/scss/_global.scss";
+
 @font-face {
   font-family: 'Rubik';
   src: url('./assets/fonts/rubik/Rubik-Medium.ttf');
 }
+
 @font-face {
   font-family: 'Rubik Light';
   src: url('./assets/fonts/rubik/Rubik-Light.ttf');
 }
+
 @font-face {
   font-family: 'Rubik Semibold';
   src: url('./assets/fonts/rubik/Rubik-SemiBold.ttf');
 }
+
+@font-face {
+  font-family: 'Rubik Italic';
+  src: url('./assets/fonts/rubik/Rubik-Italic.ttf');
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  outline: none;
+  display: flex;
 }
+
 #nav {
   padding: 30px;
   text-align: center;
@@ -47,14 +58,17 @@ export default class App extends Vue {}
     }
   }
 }
+
 body {
   padding: 0 !important;
   margin: 0 !important;
   box-sizing: border-box;
 }
+
 .page {
-  margin-top: $navbar-height;
+  padding-left: $sidebar-width;
 }
+
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
