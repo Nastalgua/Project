@@ -6,6 +6,8 @@ The application allows users to create and join events with the hope to improve 
 
 More information on this project can be found here: https://devpost.com/software/project-a9rz5m
 
+Check out a deployment of this project here: https://nastalgua.github.io/atom-hacks/#/
+
 ## Features
 * Map that allows makes it easy to pinpoint a specific location. 
 * Chats that allow users to discuss with others who are also going to the same event.
