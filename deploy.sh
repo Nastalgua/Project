@@ -23,6 +23,6 @@ git add -A
 git commit -m 'deploy'
 
 # deploy
-git push -f git@github.com:Nastalgua/atom-hacks.git master:gh-pages
+git push -f git@github.com:Nastalgua/Project.git master:gh-pages
 
 cd -
