@@ -1,4 +1,4 @@
-# Pro-ject
+# Project
 ## What Is This?
 This project was [Matthew Chen's](https://github.com/Nastalgua) and Ivan Zhang's submission for [AtomHacks VII](http://atomhacks.org/), which took first place in the hackathon. 
 
